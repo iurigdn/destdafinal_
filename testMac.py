@@ -1,7 +1,7 @@
 import uuid
 import re
-from encriptedKey import secretKey
-from b64 import *
+from geradorDeChave.encriptedKey import secretKey
+from geradorDeChave.b64 import *
 from hashlib import md5
 import PySimpleGUI as sg
 
