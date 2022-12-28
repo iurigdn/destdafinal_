@@ -3,28 +3,48 @@ from hashlib import md5
 import re
 import uuid
 import PySimpleGUI as sg
+import pyperclip as pc
 
 
 codeMac = (':'.join(re.findall('..', '%012x' % uuid.getnode())))
-layout = [
+firsthLayout = [
         [
             sg.Text('senha:'),
             sg.InputText(background_color='#ffffff'),
         ],
-        [sg.Button('verificar'), sg.Button('Cancelar')]]
+        [sg.Text('a sua senha será criptografada e ninguém terá acesso a ela',text_color='#fff111',)],
+        [sg.Button('gerar'), sg.Button('Cancelar',)]]
 
-window = sg.Window('teste').Layout(layout)
+finalLayout = lambda token : [
+        [
+            sg.Text(token)
+        ],
+        [sg.Button('ok'), sg.Button('copiar')]]
+
+
+window = sg.Window('criação do token').Layout(firsthLayout)
 
 while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED or event == 'Cancelar' or event == (
-    'verificar'):  # if user closes window or clicks cancel
+    'gerar'):  # if user closes window or clicks cancel
         password = input = values[0].replace('"', '')
         break
 window.close()
 
+
 md5edKey = (f'{md5(password.encode()).hexdigest()}||{codeMac}')
 encodedKey = b64encode(md5edKey)
+
+
+window = sg.Window('seu token').Layout(finalLayout(encodedKey))
+while True:
+    event, values = window.read()
+    if event == 'copiar':
+      pc.copy(encodedKey)
+    if event == sg.WIN_CLOSED or event == 'ok':
+        break
+window.close()
 
 print(encodedKey)
 print(b64decode(encodedKey).split('||')[1]) #get mac adress again
