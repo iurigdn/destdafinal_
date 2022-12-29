@@ -2,3 +2,4 @@ encriptedKey.py
 *__pycache__
 build
 *.spec
+log*
