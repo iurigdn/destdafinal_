@@ -6,25 +6,11 @@ import pandas as pd
 import logging
 import openpyxl
 
-def getLinha(ws,empresa):
-    for index, cell in enumerate(ws["A"]):
-        print(cell,index)
-        if index > 500 or cell.value is None:
-            break
-        if empresa == cell:
-            return index+1
-    return 0
-
-def putOk(path,empresa):
-    planilha = openpyxl.load_workbook(path)
-    aba = planilha['Plan1']
-    ws = planilha.active
-    linha = getLinha(ws,empresa)
-    ws['G' + str(linha) + ''] = "ok"
-    planilha.save('projetov2.xlsx')
-    time.sleep(2)
-    print(f'Anotado o OK na linha da empresa {empresa}')
-    logging.info(f'Anotado o OK na linha da empresa {empresa}')
+def putOk(table,empresa):
+    table.loc[table['empresa']==empresa, 'feita'] = 'ok'
+    table.to_excel('projetov2.xlsx',index=False)
+    print(f'coloquei o ok em {empresa}')
+    
 
 def run(path):
     logging.basicConfig(
@@ -55,8 +41,7 @@ def run(path):
     logging.info('Usuário clicou em Iniciar')
     print(empresas,'empresas')
     for empresa, dia, comenc, semenc, difativo, difauc in zip(empresas, dias, comencs, semencs, difativos, difaucs):
-        print(f'colocando o ok em {empresa}')
-        putOk(path,empresa)
+        putOk(df,empresa)
         try:
             from botcity.core import DesktopBot
 
