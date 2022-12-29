@@ -49,7 +49,6 @@ def run(path):
     logging.info('Usuário clicou em Iniciar')
     print(empresas,'empresas')
     for empresa, dia, comenc, semenc, difativo, difauc in zip(empresas, dias, comencs, semencs, difativos, difaucs):
-        putOk(df,empresa,path)
         try:
             from botcity.core import DesktopBot
 
@@ -219,6 +218,7 @@ def run(path):
                         self.click()
 
                         #Lendo a planilha do excel para escrever o ok
+                        putOk(df,empresa,path)
                     except Exception as e:
                         print(e)
 
