@@ -3,3 +3,4 @@ encriptedKey.py
 build
 *.spec
 log*
+*lock*

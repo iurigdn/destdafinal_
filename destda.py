@@ -6,9 +6,16 @@ import pandas as pd
 import logging
 import openpyxl
 
-def putOk(table,empresa):
-    table.loc[table['empresa']==empresa, 'feita'] = 'ok'
-    table.to_excel('projetov2.xlsx',index=False)
+def putOk(table,empresa,path):
+    try:
+        table.loc[table['empresa']==empresa, 'feita'] = 'ok'
+    except:
+        try:
+            table.loc[table['empresa']==empresa, 'G'] = 'ok'
+        except Exception as e:
+            print(f'não coloquei o ok em {empresa} pois:',e)
+            return None
+    table.to_excel(path,index=False)
     print(f'coloquei o ok em {empresa}')
     
 
@@ -38,16 +45,16 @@ def run(path):
     pyautogui.alert(text='Ao clicar em INICIAR, a DESTDA COM MOVIMENTO será iniciada.'                    
                          'Verifique se a Destda está aberta na página incial'
                          'Abra a Destda e não utilize mais o teclado e mouse ', title='Atenção', button='INICIAR')
+    
     logging.info('Usuário clicou em Iniciar')
     print(empresas,'empresas')
     for empresa, dia, comenc, semenc, difativo, difauc in zip(empresas, dias, comencs, semencs, difativos, difaucs):
-        putOk(df,empresa)
+        putOk(df,empresa,path)
         try:
             from botcity.core import DesktopBot
 
             class Bot(DesktopBot):
                 def action(self, execution=None):
-
                     try:
                         if not self.find( "novodocumento", matching=0.97, waiting_time=10000):
                             self.not_found("novodocumento")
@@ -217,6 +224,7 @@ def run(path):
 
                 def not_found(self, label):
                     print(f"Element not found: {label}")
+            
             Bot.main()
         except Exception as e:
             print(e)
