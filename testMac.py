@@ -3,8 +3,7 @@ import re
 from geradorDeChave.encriptedKey import secretKey
 from helpers import *
 from geradorDeChave.b64 import *
-import PySimpleGUI as sg
-import time
+from main import rodarPrograma
 
 [payerPasswordmd5, payerMacAdress] = b64decode(secretKey).split('||')
 
@@ -17,4 +16,5 @@ else:
     while True:
         waiters.password(title='login',correctHash=payerPasswordmd5)
         waiters.ok(title='acertou')
+        rodarPrograma()
         break
