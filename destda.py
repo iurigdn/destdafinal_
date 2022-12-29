@@ -7,7 +7,11 @@ import logging
 import openpyxl
 
 def run(path):
-    logging.basicConfig(filename='log_destda_commov.txt', encoding='utf-8', level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
+    logging.basicConfig(
+        handlers=[logging.FileHandler(filename="./log_records.txt",encoding='utf-8', mode='a+')],
+        format="%(asctime)s - %(levelname)s - %(message)s", 
+        datefmt="%F %A %T", 
+        level=logging.INFO)
 
     logging.info("Programa Iniciado")
 
