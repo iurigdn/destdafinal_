@@ -59,9 +59,10 @@ def run(path):
     
     notify('Usuário clicou em Iniciar')
     for empresa, dia, comenc, semenc, difativo, difauc in zip(empresas, dias, comencs, semencs, difativos, difaucs):
+        notify('Usuário clicou em Iniciar')
+
         if df[df['empresa'] == empresa]['feita'].values[0] == 'ok':
-            notify(f'a empresa {empresa} ja estava feita')    
-            notify('Usuário clicou em Iniciar')
+            notify(f'a empresa {empresa} ja estava feita')        
         else:
             try:
                 from botcity.core import DesktopBot
