@@ -6,6 +6,17 @@ import pandas as pd
 import logging
 from openpyxl import Workbook, load_workbook
 
+logging.basicConfig(
+        handlers=[logging.FileHandler(filename="./logs/log_records.txt",encoding='utf-8', mode='a+')],
+        format="%(asctime)s - %(levelname)s - %(message)s", 
+        datefmt="%F %A %T", 
+        level=logging.INFO)
+
+def notify(text):
+    print(text)
+    logging.info(text)
+
+
 def addFeitaColumn(path):
     planilha = load_workbook(path)
     aba = planilha.active
@@ -19,23 +30,18 @@ def putOk(table,empresa,path):
         try:
             table.loc[table['empresa']==empresa, 'G'] = 'ok'
         except Exception as e:
-            print(f'não coloquei o ok em {empresa} pois:',e)
+            notify(f'não coloquei o ok em {empresa} pois:',e)
             return None
     table.to_excel(path,index=False)
-    print(f'coloquei o ok em {empresa}')
+    notify(f'coloquei o ok em {empresa}')
     
 
 def run(path):
-    logging.basicConfig(
-        handlers=[logging.FileHandler(filename="./logs/log_records.txt",encoding='utf-8', mode='a+')],
-        format="%(asctime)s - %(levelname)s - %(message)s", 
-        datefmt="%F %A %T", 
-        level=logging.INFO)
-    logging.info("Programa Iniciado")
-    print("Programa Iniciado")
+    notify("Programa Iniciado")
+    notify("Programa Iniciado")
     addFeitaColumn(path)
     df = pd.read_excel(path)
-    logging.info('leu a planilha')
+    notify('leu a planilha')
 
     #Informando as colunas e colocando no zip
     dias = df['dia']
@@ -51,10 +57,11 @@ def run(path):
                          'Verifique se a Destda está aberta na página incial'
                          'Abra a Destda e não utilize mais o teclado e mouse ', title='Atenção', button='INICIAR')
     
-    logging.info('Usuário clicou em Iniciar')
+    notify('Usuário clicou em Iniciar')
     for empresa, dia, comenc, semenc, difativo, difauc in zip(empresas, dias, comencs, semencs, difativos, difaucs):
         if df[df['empresa'] == empresa]['feita'].values[0] == 'ok':
-            print(f'a empresa {empresa} ja estava feita')
+            notify(f'a empresa {empresa} ja estava feita')    
+            notify('Usuário clicou em Iniciar')
         else:
             try:
                 from botcity.core import DesktopBot
@@ -216,7 +223,7 @@ def run(path):
                                 self.not_found("iniciar")
                             self.click()
 
-                            if not self.find( "fechardocumento", matching=0.97, waiting_time=10000):
+                            if not self.find( "fechardocumento", matching=0.97, wzaiting_time=10000):
                                 self.not_found("fechardocumento")
                             self.click()
 
@@ -234,7 +241,7 @@ def run(path):
                 
                 Bot.main()
             except Exception as e:
-                print(e)
+                notify(e)
 
 
         
