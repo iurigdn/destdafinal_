@@ -6,6 +6,9 @@ import pandas as pd
 import logging
 from openpyxl import Workbook, load_workbook
 
+#import os
+#os.startfile('C:\SimplesNacional\SEDIF\SEDIF.exe')
+
 logging.basicConfig(
         handlers=[logging.FileHandler(filename="./logs/log_records.txt",encoding='utf-8', mode='a+')],
         format="%(asctime)s - %(levelname)s - %(message)s", 
