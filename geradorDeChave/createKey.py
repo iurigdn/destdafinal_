@@ -26,11 +26,15 @@ window = sg.Window('criação do token').Layout(firsthLayout)
 
 while True:
     event, values = window.read()
-    if event == sg.WIN_CLOSED or event == 'Cancelar' or event == (
-    'gerar'):  # if user closes window or clicks cancel
+    if event == 'gerar':  # if user closes window or clicks cancel
         password = input = values[0].replace('"', '')
-        break
-window.close()
+    if event == sg.WIN_CLOSED or event == 'Cancelar' :
+        window.close()
+        exit()
+
+    break
+
+
 
 
 md5edKey = (f'{md5(password.encode()).hexdigest()}||{codeMac}')
