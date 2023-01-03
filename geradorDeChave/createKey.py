@@ -53,5 +53,5 @@ window.close()
 print(encodedKey)
 print(b64decode(encodedKey).split('||')[1]) #get mac adress again
 
-with open("./geradorDeChave/encriptedKey.py", "w") as f:
-  f.write(f'secretKey = "{encodedKey}"')
+#with open("./geradorDeChave/encriptedKey.py", "w") as f:
+#  f.write(f'secretKey = "{encodedKey}"')
