@@ -238,10 +238,10 @@ def run(path):
                             #Lendo a planilha do excel para escrever o ok
                             putOk(df,empresa,path)
                         except Exception as e:
-                            print(e)
+                            notify(e)
 
                     def not_found(self, label):
-                        print(f"Element not found: {label}")
+                        notify(f"Element not found: {label}")
                 
                 Bot.main()
             except Exception as e:
