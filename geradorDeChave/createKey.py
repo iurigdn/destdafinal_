@@ -4,7 +4,7 @@ import re
 import uuid
 import PySimpleGUI as sg
 import pyperclip as pc
-
+import sys
 
 codeMac = (':'.join(re.findall('..', '%012x' % uuid.getnode())))
 firsthLayout = [
@@ -30,7 +30,7 @@ while True:
         password = input = values[0].replace('"', '')
     if event == sg.WIN_CLOSED or event == 'Cancelar' :
         window.close()
-        exit()
+        sys.exit()
 
     break
 

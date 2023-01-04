@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
 from hashlib import md5
 import os
+import sys
 
 class Layouts:
     def __init__(self):  
@@ -13,7 +14,7 @@ class Layouts:
 
         self.simple = lambda color,text: [sg.Text(text, background_color=color)]
 
-        self.wrong = lambda text:[(self.simple(color = 'red', text = text)),([sg.Button('tentar novamente')])]
+        self.wrong = lambda text:[(self.simple(color = 'red', text = text)),([sg.Button('ok')])]
         self.ok = lambda text:[(self.simple(color = 'green', text = text)),([sg.Button('ok')])]
 
         self.getPath = [
@@ -42,7 +43,7 @@ class Waiters:
             
             if event == sg.WIN_CLOSED or event == 'Cancelar':
                 window.close()
-                exit()
+                sys.exit()
             if event == 'verificar' and userPasswordmd5 == correctHash:  # if user closes window or clicks cancel
                 window.close()
                 break
@@ -60,12 +61,9 @@ class Waiters:
         window = sg.Window(title).Layout(layouts.wrong(text=text))
         while True:
             event, values = window.read()
-            if event == sg.WIN_CLOSED:
+            if event == sg.WIN_CLOSED or event == 'ok':
                 window.close()
-                exit()
-            if event == 'tentar novamente':
-                break
-        window.close()
+                sys.exit()
 
     def getPath(self,title):
         window = sg.Window(title).Layout(layouts.getPath)
@@ -73,7 +71,7 @@ class Waiters:
             event, values = window.read()
             if event == sg.WIN_CLOSED or event == 'Cancelar':
                 window.close()
-                exit()
+                sys.exit()
             if event ==('começar'):
                 path=input=values[0].replace('"','')
                 break
