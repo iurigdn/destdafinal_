@@ -1,8 +1,8 @@
-from login import login
-import destda
+# from login import login
+import destda_new
 from helpers import waiters
 
-login()
+# login()
 path = waiters.getPath(title = 'auto-destda')
 print(path)
-destda.run(path)
+destda_new.run(path)
